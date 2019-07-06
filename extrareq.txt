@@ -1,0 +1,47 @@
+apps['Installs'] = apps['Installs'].str.replace('+','')
+
+cat = apps.drop_duplicates(subset='Category', keep='first')
+category=[]
+for i in cat['Category']:
+    category.append(i)
+
+content_rating=['Everyone','Everyone 10+','Teen','Mature 17+','Adults only 18+']
+cat_con_rating=[0,0,0,0,0]
+
+
+for i in category:
+    no_of_apps=0
+    total_rating=0
+    total_installs=0
+    free=0
+    paid=0
+    cat_con_rating=[0,0,0,0,0]
+    print("CATEGORY:",i)
+    for index,row in apps.iterrows():
+        if i==row['Category']:
+            no_of_apps+=1
+            total_rating+=int(row['Rating'])
+            total_installs+=int(row['Installs'])
+            if row['Type']=='Free':
+                free+=1
+            elif row['Type']=='Paid':
+                paid+=1
+            if row['Content Rating']=='Everyone':
+                cat_con_rating[0]+=1
+            elif row['Content Rating']=='Everyone 10+':
+                cat_con_rating[1]+=1
+            elif row['Content Rating']=='Teen':
+                cat_con_rating[2]+=1
+            elif row['Content Rating']=='Mature 17+':
+                cat_con_rating[3]+=1
+            elif row['Content Rating']=='Adults only 18+':
+                cat_con_rating[4]+=1
+    
+    print("total number of apps:",no_of_apps)
+    print("average rating:",round(total_rating/no_of_apps,2))
+    print("total number of installs:",total_installs)
+    print("total number of free apps:",free)
+    print("total number of paid apps:",paid)
+    highest_value_con_rating = max(cat_con_rating)
+    index = cat_con_rating.index(highest_value_con_rating)
+    print("maximum apps consists content rating:",content_rating[index])
