@@ -4,9 +4,8 @@ lessdownloadsmoreratings=0
 moredownloadslessratings=0
 moredownloadsmoreratings=0
 
-for i in apps:
-    for index,row in apps.iterrows():
-        if row['Installs'] >= '100000':
+for index,row in apps.iterrows():
+	if row['Installs'] >= '100000':
             if row['Rating']>=4.1:
                 moredownloadsmoreratings+=1
             else:
@@ -14,7 +13,8 @@ for i in apps:
         elif row['Installs'] < '100000':
             if row['Rating']>=4.1:
                 lessdownloadsmoreratings+=1                     
-            
+    
+        
 print(lessdownloadsmoreratings)
 print(moredownloadslessratings)
 print(moredownloadsmoreratings)
