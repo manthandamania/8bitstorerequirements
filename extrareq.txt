@@ -4,6 +4,7 @@ cat = apps.drop_duplicates(subset='Category', keep='first')
 category=[]
 for i in cat['Category']:
     category.append(i)
+  
 
 content_rating=['Everyone','Everyone 10+','Teen','Mature 17+','Adults only 18+']
 cat_con_rating=[0,0,0,0,0]
@@ -13,6 +14,8 @@ for i in category:
     no_of_apps=0
     total_rating=0
     total_installs=0
+    total_size=0
+    size_counter=0
     free=0
     paid=0
     cat_con_rating=[0,0,0,0,0]
@@ -36,6 +39,12 @@ for i in category:
                 cat_con_rating[3]+=1
             elif row['Content Rating']=='Adults only 18+':
                 cat_con_rating[4]+=1
+            j=row['Size']
+            if 'M' in j:
+                x=j.replace("M","")
+                total_size+=float(x)*1024
+                size_counter+=1
+            
     
     print("total number of apps:",no_of_apps)
     print("average rating:",round(total_rating/no_of_apps,2))
@@ -45,3 +54,4 @@ for i in category:
     highest_value_con_rating = max(cat_con_rating)
     index = cat_con_rating.index(highest_value_con_rating)
     print("maximum apps consists content rating:",content_rating[index])
+    print("Average size(MB):",round(total_size/(size_counter*1024),2))
