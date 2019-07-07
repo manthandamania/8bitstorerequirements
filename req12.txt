@@ -1,0 +1,56 @@
+
+cat = review.drop_duplicates(subset='App', keep='first')
+app=[]
+for i in cat['App']:
+    app.append(i)
+#print(app)
+#print(len(app))
+      
+positive=[]
+negative=[]
+pos_perc=[]
+neg_perc=[]
+a=1
+#i='10 Best Foods for You'
+for i in app:
+    print(a) #this will show you the number of apps accessed
+    a+=1            
+    pos=0
+    neg=0
+
+    for index,row in review.iterrows():
+        if i==row['App']:
+            if row['Sentiment']=='Positive':
+                pos+=1
+            elif row['Sentiment']=='Negative':
+                neg+=1
+        indx = app.index(i)
+        if indx <859 and row['App']==app[indx+1]:
+            break
+        
+positive.append(pos) 
+negative.append(neg)
+
+print("APPS WITH APPROX SAME RATIO:")
+for i in range(len(app)):
+    pos_perc.append(round((positive[i]/(positive[i]+negative[i]))*100,2))
+    neg_perc.append(round((negative[i]/(positive[i]+negative[i]))*100,2))
+    if pos_perc[i]>=49.5 and pos_perc[i]<=50.5:
+        print(app[i])
+
+
+print(positive)
+print(negative)
+print(pos_perc)
+print(neg_perc)
+
+print("APP WITH MOST POSITIVE SENTIMENT:")
+max_value = max(pos_perc)
+print(max_value)
+max_index = pos_perc.index(max_value)
+print(app[max_index])
+print("APP WITH MOST NEGATIVE SENTIMENT:")
+max_value = max(neg_perc)
+print(max_value)
+max_index = neg_perc.index(max_value)
+print(app[max_index])
